@@ -60,6 +60,9 @@ class _TeamTaskManagementState extends State<TeamTaskManagement> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width *
+        MediaQuery.of(context).size.height /
+        100;
     return Scaffold(
         // backgroundColor: Colors.transparent,
         body: Stack(
@@ -124,7 +127,6 @@ class _TeamTaskManagementState extends State<TeamTaskManagement> {
                             avatars: [
                               "assets/avatars/1_002.jpg",
                               "assets/avatars/1_003.jpg",
-                              "assets/avatars/1.jpg",
                               "assets/avatars/4_002.jpg",
                               "assets/avatars/4_003.jpg"
                             ],
@@ -160,17 +162,14 @@ class _TeamTaskManagementState extends State<TeamTaskManagement> {
               child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    // borderRadius: BorderRadius.only(
-                    //     topLeft: Radius.circular(50),
-                    //     topRight: Radius.circular(50))
                   ),
                   height: MediaQuery.of(context).size.height * 0.08,
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(size / 220),
                   child: Text(
                     "Recent Tasks",
                     style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 25,
+                        fontSize: MediaQuery.of(context).size.height / 45,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1,
                         fontFamily: "OpenSans"),
@@ -332,6 +331,9 @@ class PlusButton extends StatefulWidget {
 class _PlusButtonState extends State<PlusButton> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width *
+        MediaQuery.of(context).size.height /
+        100;
     return Positioned(
         bottom: 30,
         child: GestureDetector(
@@ -348,7 +350,7 @@ class _PlusButtonState extends State<PlusButton> {
             child: Icon(
               MaterialCommunityIcons.plus,
               color: Colors.white,
-              size: 30,
+              size: size / 100,
             ),
             width: 100,
             height: 100,
@@ -382,6 +384,8 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     final tasks = widget.tasks;
+    var size =
+        MediaQuery.of(context).size.width * MediaQuery.of(context).size.height;
     return Positioned(
       left: 0,
       right: 0,
@@ -393,9 +397,9 @@ class _TaskCardState extends State<TaskCard> {
         ),
         ...tasks.map((task) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             // height: MediaQuery.of(context).size.height * 0.01,
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -408,7 +412,7 @@ class _TaskCardState extends State<TaskCard> {
                     end: Alignment.bottomCenter,
                     begin: Alignment.topCenter),
                 // color: Color.fromRGBO(0, 173, 255, 1),
-                borderRadius: BorderRadius.circular(80)),
+                borderRadius: BorderRadius.circular(size / 5000)),
             child: Stack(
               // mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -420,14 +424,14 @@ class _TaskCardState extends State<TaskCard> {
                       Icon(
                         MaterialCommunityIcons.clock_outline,
                         color: Colors.blue[800],
-                        size: 60,
+                        size: size / 8000,
                       ),
                       Text(
                         " ${task.time}",
                         style: TextStyle(
                             color: Colors.blue[800],
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: size / 18000,
                             fontFamily: "OpenSans",
                             letterSpacing: 1.5),
                       ),
@@ -442,7 +446,7 @@ class _TaskCardState extends State<TaskCard> {
                       style: TextStyle(
                           color: Colors.blue[800],
                           fontWeight: FontWeight.w400,
-                          fontSize: 22,
+                          fontSize: size / 15000,
                           fontFamily: "Anton",
                           letterSpacing: 2.5),
                     )),
@@ -455,11 +459,15 @@ class _TaskCardState extends State<TaskCard> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
-                          fontSize: 20,
+                          fontSize: size / 18000,
                           fontFamily: "Oswald",
                           letterSpacing: 2),
                     )),
-                Positioned(child: AvatarFader(avatars: task.avatars))
+                Positioned(
+                  child: AvatarFader(avatars: task.avatars),
+                  // // height: 50,
+                  // top: MediaQuery.of(context).size.height * 0.12,
+                ),
               ],
             ),
           );
@@ -519,68 +527,46 @@ class _AvatarFaderState extends State<AvatarFader>
 
   void show() async {
     if (_animationController[0].isDismissed)
-      for (AnimationController anim in _animationController) {
-        await Future.delayed(Duration(milliseconds: 83));
-        setState(() {
-          anim.forward();
-        });
-      }
-    else if (_animationController[0].isCompleted)
       for (int i = _animationController.length - 1; i >= 0; i--) {
         await Future.delayed(Duration(milliseconds: 83));
         setState(() {
-          _animationController[i].reverse();
+          _animationController[i].forward();
+        });
+      }
+    //AnimationController anim in _animationController
+    //int i = _animationController.length - 1; i >= 0; i--
+    else if (_animationController[0].isCompleted)
+      for (AnimationController anim in _animationController) {
+        await Future.delayed(Duration(milliseconds: 83));
+        setState(() {
+          anim.reverse();
         });
       }
   }
 
-  // void onTap() async {
-  //   for (GlobalKey key in keys) {
-  //     await Future.delayed(Duration(milliseconds: 40));
-  //     show();
-  //   }
-  // }
-
-  // void hide() {
-  //   setState(() {
-  //     _animationController.reverse();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // bool butt = true;
+    var size = MediaQuery.of(context).size.width *
+        MediaQuery.of(context).size.height /
+        100;
     return Stack(
       children: [
-        //  Positioned(
-        // top: MediaQuery.of(context).size.height * 0.25,
-        // left: MediaQuery.of(context).size.width * 0.05 +
-        //     avatars.indexOf(avatar) *
-        //         MediaQuery.of(context).size.width *
-        //         0.07,
-        //       child: ...avat?ars.map((e) => null)
-        //  ),
         ...avatars.map((avatar) {
           return Stack(
             children: [
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.25,
-                left: MediaQuery.of(context).size.width * 0.15 +
+                left: MediaQuery.of(context).size.width * 0.12 +
                     avatars.indexOf(avatar) *
                         MediaQuery.of(context).size.width *
-                        0.07,
+                        0.06,
                 child: AnimatedBuilder(
                   animation: _animation[avatars.indexOf(avatar)],
                   builder: (_, child) {
-                    print("${_animation[0].value} is meeeeee");
                     return Transform.translate(
                       offset: Offset(
-                          -_animation[avatars.indexOf(avatar)].value * 10, 0),
-                      child:
-                          // Container(
-                          //     width: 100, height: 100, color: Colors.red)
-
-                          Opacity(
+                          _animation[avatars.indexOf(avatar)].value * 10, 0),
+                      child: Opacity(
                         opacity: 1 - _animation[avatars.indexOf(avatar)].value,
                         child: child,
                       ),
@@ -595,7 +581,7 @@ class _AvatarFaderState extends State<AvatarFader>
                       child: ClipOval(
                         child: Image.asset(
                           avatar,
-                          width: MediaQuery.of(context).size.width * 0.1,
+                          width: size / 100,
                         ),
                       ),
                     ),
@@ -620,7 +606,7 @@ class _AvatarFaderState extends State<AvatarFader>
               child: Icon(
                 Icons.more_vert,
                 color: Colors.blue[800],
-                size: 28,
+                size: size / 150,
               ),
               onTap: () {
                 setState(() {
