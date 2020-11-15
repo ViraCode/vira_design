@@ -14,6 +14,7 @@ import 'package:vira_design/screens/dialog_box/custom_dialog_box.dart';
 import 'package:vira_design/screens/main_screen.dart';
 import 'package:vira_design/screens/product_page/sliver_product.dart';
 import 'package:vira_design/screens/product_page/sliver_stacked_product.dart';
+import 'package:vira_design/screens/profile/animated_profile.dart';
 import 'package:vira_design/screens/settings/sectioned_settings_with_profile.dart';
 
 import 'screens/animation_ui/drawer_3d.dart';
@@ -36,6 +37,12 @@ class MyApp extends StatelessWidget {
       home: MainScreen(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          case AnimatedProfile.route:
+            return PageTransition(
+              child: AnimatedProfile(),
+              type: PageTransitionType.fade,
+              settings: settings,
+            );
           case BlurImage.route:
             return PageTransition(
               child: BlurImage(),

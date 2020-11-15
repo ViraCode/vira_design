@@ -49,7 +49,7 @@ packages:
       name: bottom_navy_bar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.0"
+    version: "5.6.0"
   carousel_slider:
     dependency: "direct main"
     description:
@@ -208,7 +208,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.1"
   flutter_custom_clippers:
     dependency: "direct main"
     description:
@@ -272,7 +272,7 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.13.2"
+    version: "3.17.1"
   google_fonts:
     dependency: "direct main"
     description:
@@ -427,6 +427,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.2"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.8"
   petitparser:
     dependency: transitive
     description:
@@ -648,7 +655,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.6"
+    version: "5.7.10"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -669,14 +676,14 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.9"
   url_launcher_web:
     dependency: transitive
     description:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4+1"
+    version: "0.1.5+1"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -734,5 +741,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.10.0-110 <=2.11.0-213.1.beta"
-  flutter: ">=1.17.0 <2.0.0"
+  dart: ">=2.10.0 <=2.11.0-213.1.beta"
+  flutter: ">=1.22.0 <2.0.0"

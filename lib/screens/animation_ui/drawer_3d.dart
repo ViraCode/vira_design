@@ -28,7 +28,7 @@ class _Drawer3dState extends State<Drawer3d>
     print("drag started");
     bool isDragOpenFromLeft = animationController.isDismissed &&
         details.globalPosition.dx <
-            MediaQuery.of(context).size.width * 0.7; //minDragStartEdge
+            MediaQuery.of(context).size.width * 0.5; //minDragStartEdge
     bool isDragClosedFromRight = animationController.isCompleted &&
         details.globalPosition.dx > 0.0; //maxDragStartEdge
     _canBeDragged = isDragOpenFromLeft || isDragClosedFromRight;
@@ -82,7 +82,7 @@ class _Drawer3dState extends State<Drawer3d>
                     alignment: Alignment.centerRight,
                     child: Container(
                       color: Colors.yellow,
-                      width: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.width * 0.5,
                     ),
                   ),
                 ),

@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -11,14 +11,14 @@ class BlurImage extends StatefulWidget {
 
 class _BlurImageState extends State<BlurImage>
     with SingleTickerProviderStateMixin {
-  Animation _anim;
-  AnimationController _animController;
-
+  final ScrollController controller = ScrollController();
+  // Animation _anim;
+  // AnimationController _animController;
   @override
   void initState() {
-    _animController =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
-    _anim = CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
+    // _animController =
+    //     AnimationController(vsync: this, duration: Duration(seconds: 5));
+    // _anim = CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
     super.initState();
   }
 
@@ -28,57 +28,111 @@ class _BlurImageState extends State<BlurImage>
       appBar: AppBar(
         title: Text("Blur Image"),
       ),
-      body: Stack(
-        children: [
-          // Image.asset("online_assets/587277-515x515-1.jpg"),
-          // BackdropFilter(
-          //   filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          // ),
-          Container(
-            width: 350,
-            height: 300,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('online_assets/587277-515x515-1.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Container(
-                color: Colors.black.withOpacity(0),
-              ),
-            ),
-          ),
-          AnimatedBuilder(
-            animation: _anim,
-            builder: (_, child) {
-              print("Anim started");
-              return Container(
-                // origin: Offset(
-                //     _animController.value * 10, _animController.value * 10),
-                child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5)),
-              );
-            },
-          ),
-          Positioned(
-            top: 600,
-            left: 100,
-            width: 100,
-            height: 1000,
-            child: RaisedButton(
-              color: Colors.red,
-              onPressed: () {
-                setState(() {
-                  _animController.forward();
-                });
-              },
-              child: Text("SADASADS"),
-            ),
-          ),
-        ],
+      body: AvatarStack(
+        controller: controller,
+        top: 500,
+        left: 200,
+        // reverse: true,
+        // expandTimes: 0.1,
+        child: ListView(
+          controller: controller,
+          children: [
+            ...[
+              Colors.red,
+              Colors.blue,
+              Colors.blueGrey,
+              Colors.deepPurple,
+              Colors.green,
+              Colors.amber,
+              Colors.black,
+              Colors.purple,
+              Colors.yellow,
+              Colors.brown
+            ].map((e) => Container(width: 450, height: 200, color: e))
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class AvatarStack extends StatefulWidget {
+  final ScrollController controller;
+  final double top;
+  final double left;
+  final double expandTimes;
+  final Widget child;
+  final bool reverse;
+  final BoxBorder border;
+  final ImageProvider image;
+
+  const AvatarStack(
+      {Key key,
+      this.controller,
+      this.top,
+      this.left,
+      this.reverse = false,
+      this.expandTimes = 1,
+      this.child,
+      this.border,
+      this.image})
+      : super(key: key);
+
+  @override
+  _AvatarStackState createState() => _AvatarStackState();
+}
+
+class _AvatarStackState extends State<AvatarStack> {
+  ScrollController controller;
+  double offset = 0;
+  @override
+  void initState() {
+    controller = widget.controller;
+    controller.addListener(() {
+      updater();
+    });
+    super.initState();
+  }
+
+  updater() {
+    print("off set is tthis  :::  $offset");
+    setState(() {
+      offset = widget.reverse ? controller.offset * -1 : controller.offset;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        widget.child,
+        Positioned(
+          top: widget.top == null
+              ? MediaQuery.of(context).size.height * 0.1 -
+                  offset * widget.expandTimes
+              : widget.top - offset * widget.expandTimes,
+          left: widget.left == null
+              ? MediaQuery.of(context).size.width * 0.08
+              : widget.left,
+          child: offset < MediaQuery.of(context).size.height * 0.1
+              ? Container(
+                  width: 120,
+                  height: widget.reverse
+                      ? math.max(offset + 120, 0)
+                      : math.max(120 - offset, 0),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: widget.border == null
+                          ? Border.all(color: Colors.white, width: 1)
+                          : widget.border,
+                      image: DecorationImage(
+                          image: widget.image == null
+                              ? AssetImage("assets/avatars/me.jpg")
+                              : widget.image)),
+                )
+              : Text(""),
+        ),
+      ],
     );
   }
 }
